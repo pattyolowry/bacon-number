@@ -1,5 +1,13 @@
 ## Changelog
 
+### 2026-06-27
+
+- Patrick
+  - Added script to backfill data from BRIDGES API
+  - Fetched data for years 1950-2026 and saved in movie_data.csv
+    - Note: data is saved to csv because BRIDGES API allows very limited API requests and takes 1 min to fetch each year of data
+  - Started a main.py to populate the graph with the csv data
+
 ### 2026-06-26
 
 - Patrick
