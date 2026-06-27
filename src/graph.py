@@ -21,18 +21,17 @@ class Vertex:
 
 class Graph:
     edge_count: int
-    verticies: List[Vertex]
+    vertices: List[Vertex]
     edges: List[Edge]
     actor_indexes: dict[str, int]
     movie_indexes: dict[str, int]
 
     def __init__(self) -> None:
         self.edge_count = 0
-        self.verticies = []
+        self.vertices = []
         self.edges = []
         self.actor_indexes = {}
         self.movie_indexes = {}
-        return
     
     def add_connection(self, actor: str, movie: str) -> None:
         actor_idx = self._add_actor(actor)
@@ -41,31 +40,31 @@ class Graph:
     
     def _add_actor(self, actor: str) -> int:
         # Adds vertex for actor and returns index of the actor
-        idx = self.actor_indexes.get(actor, None)
+        idx = self.actor_indexes.get(actor.lower(), None)
         if not idx:
-            idx = len(self.verticies)
+            idx = len(self.vertices)
             new_vertex = Vertex(actor, "actor")
-            self.verticies.append(new_vertex)
+            self.vertices.append(new_vertex)
             self.edges.append(Edge(-1, None, None))
-            self.actor_indexes[actor] = idx
+            self.actor_indexes[actor.lower()] = idx
         return idx
 
     def _add_movie(self, movie: str) -> int:
         # Adds vertex for movie and returns index of the movie
-        idx = self.movie_indexes.get(movie, None)
+        idx = self.movie_indexes.get(movie.lower(), None)
         if not idx:
-            idx = len(self.verticies)
+            idx = len(self.vertices)
             new_vertex = Vertex(movie, "movie")
-            self.verticies.append(new_vertex)
+            self.vertices.append(new_vertex)
             self.edges.append(Edge(-1, None, None))
-            self.movie_indexes[movie] = idx
+            self.movie_indexes[movie.lower()] = idx
         return idx
 
     def get_value(self, v: int) -> Vertex:
-        return self.verticies[v]
+        return self.vertices[v]
     
     def set_value(self, v: int, val: Vertex) -> None:
-        self.verticies[v] = val
+        self.vertices[v] = val
     
     def neighbors(self, v: int) -> List[int]:
         temp: List[int] = []
@@ -74,6 +73,12 @@ class Graph:
             curr = curr.next
             temp.append(curr.vertex)
         return temp
+    
+    def vertex_count(self) -> int:
+        return len(self.vertices)
+    
+    def get_movie_index(self, name: str) -> Optional[int]:
+        return self.movie_indexes.get(name.lower(), None)
         
     
     def _find(self, v: int, w: int) -> Edge | None:
@@ -98,29 +103,3 @@ class Graph:
                 curr.next.next.prev = curr.next
             self.edge_count += 1
         
-
-# TODO: Remove this when done testing
-# connections = [
-#     { "movie": "The Odyssey", "actor": "Matt Damon" },
-#     { "movie": "The Odyssey", "actor": "Tom Holland" },
-#     { "movie": "The Odyssey", "actor": "Zendaya" },
-#     { "movie": "The Odyssey", "actor": "Robert Pattinson" },
-#     { "movie": "The Odyssey", "actor": "Anne Hathaway" },
-# ]
-
-# graph = Graph()
-
-# for connection in connections:
-#     graph.add_connection(connection["actor"], connection["movie"])
-
-# neighbors = graph.neighbors(1)
-# print("Connections to The Odyssey:")
-# for neighbor in neighbors:
-#     vertex = graph.get_value(neighbor)
-#     print(f"Name: {vertex.name}, Type: {vertex.type}")
-
-# neighbors = graph.neighbors(5)
-# print("Connections to Anne Hathaway:")
-# for neighbor in neighbors:
-#     vertex = graph.get_value(neighbor)
-#     print(f"Name: {vertex.name}, Type: {vertex.type}")
