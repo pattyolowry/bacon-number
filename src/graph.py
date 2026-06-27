@@ -1,13 +1,12 @@
-from typing import List, Any
+from typing import List, Optional
 
 # Ref: https://opendsa-server.cs.vt.edu/OpenDSA/Books/Everything/html/GraphImpl.html#graph-implementations
-# TODO: fix typing of prev and next
 class Edge:
     vertex: int
-    prev: Any
-    next: Any
+    prev: Optional["Edge"]
+    next: Optional["Edge"]
 
-    def __init__(self, v: int, p: Any, n: Any) -> None:
+    def __init__(self, v: int, p: Optional["Edge"], n: Optional["Edge"]) -> None:
         self.vertex = v
         self.prev = p
         self.next = n
